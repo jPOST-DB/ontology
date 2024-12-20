@@ -1,0 +1,1352 @@
+@prefix : <http://rdf.jpostdb.org/ontology/jpost.owl#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix px: <https://raw.githubusercontent.com/PX-RDF/ontology/master/px.owl#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix obo: <http://purl.obolibrary.org/obo/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sio: <http://semanticscience.org/resource/> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix uniprot: <http://purl.uniprot.org/core/> .
+@prefix unimod: <http://www.unimod.org/obo/unimod.obo#> .
+@base <http://rdf.jpostdb.org/ontology/jpost:owl> .
+
+<http://rdf.jpostdb.org/ontology/jpost:owl> rdf:type owl:Ontology ;
+                                             owl:imports <http://semanticscience.org/ontology/sio/v1.30.0/sio-release.owl> ;
+                                             dc:creator "Yuki Moriya" ;
+                                             dc:description "jPOST RDF ontology" ;
+                                             dct:license <http://creativecommons.org/publicdomain/zero/1.0/> ;
+                                             rdfs:label "jPOST RDF Ontology" ;
+                                             owl:versionInfo 0.15 .
+
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#cellLine
+:cellLine rdf:type owl:ObjectProperty ;
+          rdfs:domain :Sample ;
+          rdfs:range :CellLine ;
+          dc:description "Property that describes the cell line of sample." ;
+          rdfs:label "cell line" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#disease
+:disease rdf:type owl:ObjectProperty ;
+         rdfs:domain :Sample ;
+         dc:description "Property that describes the disease of sample." ;
+         rdfs:label "disease" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#diseaseClass
+:diseaseClass rdf:type owl:ObjectProperty ;
+              rdfs:domain :Sample ;
+              dc:description "Property that describes the disease class of sample." ;
+              rdfs:label "disease class" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#enzyme
+:enzyme rdf:type owl:ObjectProperty ;
+        rdfs:domain :EnzymeAndModification ;
+        rdfs:range :Enzyme ;
+        dc:description "Property that describes the used enzyme to convert proteins into peptides" ;
+        rdfs:label "enzyme" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#fixedModification
+:fixedModification rdf:type owl:ObjectProperty ;
+                   rdfs:domain :EnzymeAndModification ;
+                   rdfs:range :FixedModification ;
+                   dc:description "Property that describes the amino acid mass modifications applied universally." ;
+                   rdfs:label "fixed modification" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#hasDatabaseSequence
+:hasDatabaseSequence rdf:type owl:ObjectProperty ;
+                     rdfs:domain :Protein ;
+                     rdfs:comment "has protein sequence entry in database." ;
+                     rdfs:label "has database sequence" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#hasDataset
+:hasDataset rdf:type owl:ObjectProperty ;
+            rdfs:range :Dataset ;
+            rdfs:comment "jPOST project has a dataset." ;
+            rdfs:label "has dataset" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#hasEnzymeAndModification
+:hasEnzymeAndModification rdf:type owl:ObjectProperty ;
+                          rdfs:domain :Profile ;
+                          rdfs:range :EnzymeAndModification ;
+                          rdfs:label "has enzyme/modification" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#hasFractionation
+:hasFractionation rdf:type owl:ObjectProperty ;
+                  rdfs:domain :Profile ;
+                  rdfs:range :Fractionation ;
+                  rdfs:label "has fractionation" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#hasFractionationType
+:hasFractionationType rdf:type owl:ObjectProperty ;
+                  rdfs:domain :Fractionation ;
+                  rdfs:range :FractionationType ;
+                  rdfs:label "has fractionation type" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#hasIndistinguishablePeptide
+:hasIndistinguishablePeptide rdf:type owl:ObjectProperty ;
+                             rdfs:domain :UniquePeptide ;
+                             rdfs:range :UniquePeptide ;
+                             rdfs:label "has indistinguishable peptide at MS level" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#hasLeadingProtein
+:hasLeadingProtein rdf:type owl:ObjectProperty ;
+                   rdfs:domain :Protein ;
+                   rdfs:range :Protein ;
+                   rdfs:label "has leading protein" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#hasModification
+:hasModification rdf:type owl:ObjectProperty ;
+                 rdfs:domain :Peptide ;
+                 rdfs:range unimod:UNIMOD_0 ;
+		 rdfs:range obo:MOD_00000 ;
+                 rdfs:comment "amino acid sequence has a modification." ;
+                 rdfs:label "has modification" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#hasMsMode
+:hasMsMode rdf:type owl:ObjectProperty ;
+           rdfs:domain :Profile ;
+           rdfs:range :MsMode ;
+           rdfs:label "has LC/MS/MS mode" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#hasPeptide
+:hasPeptide rdf:type owl:ObjectProperty ;
+            rdfs:domain [ rdf:type owl:Class ;
+                          owl:unionOf ( :Dataset
+                                        :PeptideEvidence
+                                      )
+                        ] ;
+            rdfs:range :Peptide ;
+            rdfs:comment "Dataset and peptide evidence has a peptide." ;
+            rdfs:label "has peptide" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#hasPeptideEvidence
+:hasPeptideEvidence rdf:type owl:ObjectProperty ;
+                    rdfs:domain :Protein ;
+                    rdfs:range :PeptideEvidence ;
+                    rdfs:label "has peptide evidence" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#hasPlex
+:hasPlex rdf:type owl:ObjectProperty ;
+         rdfs:domain :Profile ;
+         rdfs:range :Plex ;
+         rdfs:label "has plex" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#hasProfile
+:hasProfile rdf:type owl:ObjectProperty ;
+            rdfs:domain [ rdf:type owl:Class ;
+                          owl:unionOf ( :Dataset
+                                        :RawData
+                                      )
+                        ] ;
+            rdfs:range :Profile ;
+            rdfs:label "has profile" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#hasProtein
+:hasProtein rdf:type owl:ObjectProperty ;
+            rdfs:domain :Dataset ;
+            rdfs:range :Protein ;
+            rdfs:comment "Dataset has a protein." ;
+            rdfs:label "has protein" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#hasPsm
+:hasPsm rdf:type owl:ObjectProperty ;
+        rdfs:range :PeptideSpectrumMatch ;
+        rdfs:comment "Peptide has a PSM" ;
+        rdfs:label "has PSM" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#hasRawData
+:hasRawData rdf:type owl:ObjectProperty ;
+            rdfs:range :RawData ;
+            rdfs:comment "jPOST project has a LC-MS/MS raw data." ;
+            rdfs:label "has raw data" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#hasSample
+:hasSample rdf:type owl:ObjectProperty ;
+           rdfs:domain :Profile ;
+           rdfs:range :Sample ;
+           rdfs:label "has sample" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#hasSequence
+:hasSequence rdf:type owl:ObjectProperty ;
+             rdfs:domain [ rdf:type owl:Class ;
+                           owl:unionOf ( :Peptide
+                                         :Protein
+                                       )
+                         ] ;
+             rdfs:comment "has amino acid sequence." ;
+             rdfs:label "has sequence" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#hasSpectrum
+:hasSpectrum rdf:type owl:ObjectProperty ;
+             rdfs:range :Spectrum ;
+             rdfs:comment "PSM has a spectrum" ;
+             rdfs:label "has spectrum" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#inPlex
+:inPlex rdf:type owl:ObjectProperty ;
+        rdfs:domain :RelativeQuantitativeValue ;
+        rdfs:range :Plex ;
+        rdfs:label "in plex" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#inProteinGroup
+:inProteinGroup rdf:type owl:ObjectProperty ;
+                rdfs:domain :Protein ;
+                rdfs:range :ProteinGroup ;
+                rdfs:comment "Pataset in a protein group." ;
+                rdfs:label "in protein group" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#inRawData
+:inRawData rdf:type owl:ObjectProperty ;
+           rdfs:range :RawData ;
+           rdfs:comment "Peptide in a LC-MS/MS raw data." ;
+           rdfs:label "in raw data" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#instrument
+:instrument rdf:type owl:ObjectProperty ;
+            rdfs:domain [ rdf:type owl:Class ;
+                          owl:unionOf ( :Dataset
+                                        :MsMode
+                                      )
+                        ] ;
+            dc:description "Property that describes instrument on which the data has been generated." ;
+            rdfs:label "instrument" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#instrumentMode
+:instrumentMode rdf:type owl:ObjectProperty ;
+                rdfs:domain :MsMode ;
+                rdfs:range :InstrumentMode ;
+                dc:description "Property that describes the mode of mass spectrometer." ;
+                rdfs:label "instrument mode" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#instrumentPurpose
+:instrumentPurpose rdf:type owl:ObjectProperty ;
+                   rdfs:domain :MsMode ;
+                   rdfs:range :InstrumentPurpose ;
+                   dc:description "Property that describes the purpose of mass spectrometry." ;
+                   rdfs:label "instrument purpose" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#modificationClass
+:modificationClass rdf:type owl:ObjectProperty ;
+                   rdfs:range :ModificationClass ;
+                   dc:description "Property that describes the modification type." ;
+                   rdfs:label "modification class" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#organ
+:organ rdf:type owl:ObjectProperty ;
+       rdfs:domain :Sample ;
+       rdfs:range :Organ ;
+       dc:description "Property that describes the organ of sample." ;
+       rdfs:label "organ" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#quantificationPlatform
+:quantificationPlatform rdf:type owl:ObjectProperty ;
+                        rdfs:domain :MsMode ;
+                        rdfs:range :QuantificationPlatform ;
+                        dc:description "Property that describes the platform of quantification method." ,
+                                       "Property that describes the quantification method." ;
+                        rdfs:label "quantification method" ,
+                                   "quantification platform" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#representativePsm
+:representativePsm rdf:type owl:ObjectProperty ;
+            rdfs:domain :PeptideSpectrumMatch ;
+            rdfs:range xsd:boolean ;
+            dc:description "Representative PSM flag in a peptide sequence-level" ;
+            rdfs:label "representative PSM" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#sampleType
+:sampleType rdf:type owl:ObjectProperty ;
+            rdfs:domain :Sample ;
+            rdfs:range :SampleType ;
+            dc:description "Property that describes the sample type of sample." ;
+            rdfs:label "sample type" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#species
+:species rdf:type owl:ObjectProperty ;
+         rdfs:domain [ rdf:type owl:Class ;
+                       owl:unionOf ( :Dataset
+                                     :EnzymeAndModification
+                                     :Sample
+                                   )
+                     ] ;
+         dc:description "Property that describes the species from which the data has been generated." ;
+         rdfs:label "species" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#tissue
+:tissue rdf:type owl:ObjectProperty ;
+        rdfs:domain :Sample ;
+        rdfs:range :Tissue ;
+        dc:description "Property that describes the tissue of sample." ;
+        rdfs:label "tissue" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#variableModification
+:variableModification rdf:type owl:ObjectProperty ;
+                      rdfs:domain :EnzymeAndModification ;
+                      rdfs:range :VariableModification ;
+                      dc:description "Property that describes the possible amino acid mass modifications." ;
+                      rdfs:label "variable modification" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#detectedSiteBySearchEngine
+:detectedSiteBySearchEngine rdf:type owl:ObjectProperty ;
+                     	    rdfs:domain unimod:UNIMOD_0 ;
+                     	    dc:description "Property that describes the detected modification site by search engine, in the ambiguous modification site." ;
+                     	    rdfs:label "detected site by search engine" .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#hasPostResidue
+:hasPostResidue rdf:type owl:DatatypeProperty ;
+                rdfs:domain :PeptideEvidence ;
+                rdfs:range xsd:string ;
+                rdfs:comment "post residue of matched region" ;
+                rdfs:label "has post residue" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#hasPreResidue
+:hasPreResidue rdf:type owl:DatatypeProperty ;
+               rdfs:domain :PeptideEvidence ;
+               rdfs:range xsd:string ;
+               rdfs:comment "pre residue of matched region" ;
+               rdfs:label "has pre residue" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#modificationSite
+:modificationSite rdf:type owl:DatatypeProperty ;
+                  rdfs:range xsd:string ;
+                  dc:description "Property that describes the amino acid mass modifications site." ;
+                  rdfs:label "modification site" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#fractions
+:fractions rdf:type owl:DatatypeProperty ;
+                  rdfs:domain :FractionationType ;
+                  rdfs:range xsd:integer ;
+                  dc:description "Property describes the number of fractions." ;
+                  rdfs:label "fractions" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#replicates
+:replicates rdf:type owl:DatatypeProperty ;
+                   rdfs:domain :FractionationType ;
+                   rdfs:range xsd:integer ;
+                   dc:description "Property describes the number of replicates." ;
+                   rdfs:label "replicates" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#plex
+:plex rdf:type owl:DatatypeProperty ;
+      rdfs:domain :MsMode ;
+      rdfs:range xsd:integer ;
+      dc:description "Property that describes the number of plex." ;
+      rdfs:label "plex number" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#hasCorrespondingConfirmedSite
+:hasCorrespondingConfirmedSite rdf:type owl:ObjectProperty ;
+                     	       rdfs:domain unimod:UNIMOD_0 ;
+			       rdfs:range xsd:boolean ;
+                     	       dc:description "Property that describes the existence of corresponding confirmed site in other PSMs." ;
+                     	       rdfs:label "has corresponding confirmed site" .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#AbsoluteAuantitativeValue
+:AbsoluteAuantitativeValue rdf:type owl:Class ;
+                           rdfs:subClassOf :QuantitativeValue ;
+                           rdfs:label "" ,
+                                      "Absolute quantitative value" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#CalculatedMassToCharge
+:CalculatedMassToCharge rdf:type owl:Class ;
+                        rdfs:subClassOf :MassToCharge ;
+                        dc:description "Calculated monoisotopic mass[obo:MS_1000225]-to-charge[obo:MS_1000041] ratio of mass spectrum." ;
+                        rdfs:label "Calculated mass-to-charge ratio" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#CellLine
+:CellLine rdf:type owl:Class ;
+          rdfs:subClassOf :Sample ;
+          dc:description "cell line of sample." ;
+          rdfs:label "Cell line" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#Dataset
+:Dataset rdf:type owl:Class ;
+         rdfs:subClassOf :JpostEntry ,
+                         sio:SIO_000089 ;
+         dc:description "a jPOST entry describing a dataset." ;
+         rdfs:label "jPOST dataset" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#DatasetStatistic
+:DatasetStatistic rdf:type owl:Class ;
+                  dct:description "Statistic of proteomics dataset" ;
+                  rdfs:label "Dataset statistic" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#Disease
+:Disease rdf:type owl:Class ;
+         rdfs:subClassOf :Sample ;
+         dc:description "disease type of sample." ;
+         rdfs:label "Disease" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#Enzyme
+:Enzyme rdf:type owl:Class ;
+        rdfs:subClassOf :EnzymeAndModification ;
+        dc:description "a used enzyme to convert proteins into peptides." ;
+        rdfs:label "Enzyme" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#EnzymeAndModification
+:EnzymeAndModification rdf:type owl:Class ;
+                       rdfs:subClassOf :Profile ;
+                       dc:description "metadata of enzymes and modifications." ;
+                       rdfs:label "Enzyme/Modification" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#ExperimentalMassToCharge
+:ExperimentalMassToCharge rdf:type owl:Class ;
+                          rdfs:subClassOf :MassToCharge ;
+                          dc:description "Experimental monoisotopic mass[obo:MS_1000225]-to-charge[obo:MS_1000041] ratio of mass spectrum." ;
+                          rdfs:label "Experimental mass-to-charge ratio" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#FixedModification
+:FixedModification rdf:type owl:Class ;
+                   rdfs:subClassOf px:ModificationType ;
+                   dc:description "an amino acid mass modification applied universally." ;
+                   rdfs:label "Fixed modification" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#Fractionation
+:Fractionation rdf:type owl:Class ;
+               rdfs:subClassOf :Profile ;
+               dc:description "metadata of sample fractionation processes." ;
+               rdfs:label "Fractionation" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#FractionationType
+:FractionationType rdf:type owl:Class ;
+               rdfs:subClassOf :Fractionation ;
+               dc:description "fractionation process type, such as subcellular, protein and peptide-level." ;
+               rdfs:label "Fractionation type" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#SubcellularFractionation
+:SubcellularFractionation rdf:type owl:Class ;
+               rdfs:subClassOf :FractionationType ;
+               dc:description "subcellular-level fractionation process." ;
+               rdfs:label "Subcellular fractionation" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#ProteinFractionation
+:ProteinFractionation rdf:type owl:Class ;
+               rdfs:subClassOf :FractionationType ;
+               dc:description "protein-level fractionation process." ;
+               rdfs:label "Protein fractionation" .
+	       
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#PeptideFractionation
+:PeptideFractionation rdf:type owl:Class ;
+               rdfs:subClassOf :FractionationType ;
+               dc:description "peptide-level fractionation process." ;
+               rdfs:label "Peptide fractionation" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#InstrumentMode
+:InstrumentMode rdf:type owl:Class ;
+                rdfs:subClassOf :MsMode ;
+                dc:description "instrument mode of mass spectromerter." ;
+                rdfs:label "Instrument mode" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#InstrumentPurpose
+:InstrumentPurpose rdf:type owl:Class ;
+                   rdfs:subClassOf :MsMode ;
+                   dc:description "purpose of mass spectrometry." ;
+                   rdfs:label "Instrument purpose" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_001
+:JPO_001 rdf:type owl:Class ;
+         dc:description "root node for terms relating to the description of jPOST." ;
+         dct:identifier "JPO_001" ;
+         rdfs:label "jPOST controlled vocabulary" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_002
+:JPO_002 rdf:type owl:Class ;
+         rdfs:subClassOf :JPO_001 ;
+         dc:description "root node for terms relating to the description of instrument modes." ;
+         dct:identifier "JPO_002" ;
+         rdfs:label "Instrument mode vocabulary" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_003
+:JPO_003 rdf:type owl:Class ;
+         rdfs:subClassOf :JPO_001 ;
+         dc:description "root node for terms relating to the description of instrument purposes." ;
+         dct:identifier "JPO_003" ;
+         rdfs:label "Purpose vocabulary" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_004
+:JPO_004 rdf:type owl:Class ;
+         rdfs:subClassOf :JPO_001 ;
+         dc:description "root node for terms relating to the description of quntification platforms." ;
+         dct:identifier "JPO_004" ;
+         rdfs:label "Quantification platform vocabulary" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_005
+:JPO_005 rdf:type owl:Class ;
+         rdfs:subClassOf :JPO_002 .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_006
+:JPO_006 rdf:type owl:Class ;
+         rdfs:subClassOf :JPO_002 .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_007
+:JPO_007 rdf:type owl:Class ;
+         rdfs:subClassOf :JPO_002 .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_008
+:JPO_008 rdf:type owl:Class ;
+         rdfs:subClassOf :JPO_002 .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_009
+:JPO_009 rdf:type owl:Class ;
+         rdfs:subClassOf :JPO_003 .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_010
+:JPO_010 rdf:type owl:Class ;
+         rdfs:subClassOf :JPO_003 .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_011
+:JPO_011 rdf:type owl:Class ;
+         rdfs:subClassOf :JPO_003 .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_012
+:JPO_012 rdf:type owl:Class ;
+         rdfs:subClassOf :JPO_004 .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_013
+:JPO_013 rdf:type owl:Class ;
+         rdfs:subClassOf :JPO_004 .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_014
+:JPO_014 rdf:type owl:Class ;
+         rdfs:subClassOf :JPO_004 .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_015
+:JPO_015 rdf:type owl:Class ;
+         rdfs:subClassOf :JPO_004 ;
+         dct:identifier "JPO_015" ;
+         rdfs:label "Product ion (reporter quantification)" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_016
+:JPO_016 rdf:type owl:Class ;
+         rdfs:subClassOf :JPO_004 .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_017
+:JPO_017 rdf:type owl:Class ;
+         rdfs:subClassOf :JPO_004 .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_018
+:JPO_018 rdf:type owl:Class ;
+         rdfs:subClassOf :JPO_001 ;
+         dc:description "root node for terms relating to the description of sample." ;
+         dct:identifier "JPO_018" ;
+         rdfs:label "Sample vocabulary" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_019
+:JPO_019 rdf:type owl:Class ;
+         rdfs:subClassOf :JPO_018 ;
+         dc:description "non-disease sample." ;
+         dct:identifier "JPO_019" ;
+         rdfs:label "Normal" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_020
+:JPO_020 rdf:type owl:Class ;
+         rdfs:subClassOf :JPO_018 ;
+         dc:description "disease sample excludes cancer, nervous system disease, metabolic disease , cardiovascular system disease, infectious disease and immune system disease." ;
+         dct:identifier "JPO_020" ;
+         rdfs:label "Other disease" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_021
+:JPO_021 rdf:type owl:Class ;
+         rdfs:subClassOf :JPO_001 ;
+         dc:description "root node for terms relating to the description of modification class based on unimod." ;
+         dct:identifier "JPO_021" ;
+         rdfs:label "Modification class vocabulary" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_022
+:JPO_022 rdf:type owl:Class ;
+         rdfs:subClassOf :JPO_021 .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_023
+:JPO_023 rdf:type owl:Class ;
+         rdfs:subClassOf :JPO_021 .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_024
+:JPO_024 rdf:type owl:Class ;
+         rdfs:subClassOf :JPO_021 .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_025
+:JPO_025 rdf:type owl:Class ;
+         rdfs:subClassOf :JPO_021 .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_026
+:JPO_026 rdf:type owl:Class ;
+         rdfs:subClassOf :JPO_021 .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_027
+:JPO_027 rdf:type owl:Class ;
+         rdfs:subClassOf :JPO_021 .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_028
+:JPO_028 rdf:type owl:Class ;
+         rdfs:subClassOf :JPO_021 .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_029
+:JPO_029 rdf:type owl:Class ;
+         rdfs:subClassOf :JPO_021 .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_030
+:JPO_030 rdf:type owl:Class ;
+         rdfs:subClassOf :JPO_021 .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_031
+:JPO_031 rdf:type owl:Class ;
+         rdfs:subClassOf :JPO_021 .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_032
+:JPO_032 rdf:type owl:Class ;
+         rdfs:subClassOf :JPO_021 .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_033
+:JPO_033 rdf:type owl:Class ;
+         rdfs:subClassOf :JPO_021 .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_034
+:JPO_034 rdf:type owl:Class ;
+         rdfs:subClassOf :JPO_021 .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_035
+:JPO_035 rdf:type owl:Class ;
+         rdfs:subClassOf :JPO_021 .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_036
+:JPO_036 rdf:type owl:Class ;
+         rdfs:subClassOf :JPO_021 .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_037
+:JPO_037 rdf:type owl:Class ;
+         rdfs:subClassOf :JPO_021 .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_038
+:JPO_038 rdf:type owl:Class ;
+         rdfs:subClassOf :JPO_021 .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_039
+:JPO_039 rdf:type owl:Class ;
+         rdfs:subClassOf :JPO_021 .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_100
+:JPO_100 rdf:type owl:Class ;
+         rdfs:subClassOf :JPO_001 ;
+         rdfs:label "Unit"@ja .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_101
+:JPO_101 rdf:type owl:Class ;
+         rdfs:subClassOf :JPO_100 ;
+         dc:description "femtomole [obo:UO_0000043] per picoliter [obo:UO_0000103]" ;
+         dct:identifier "JPO_101" ;
+         rdfs:label "Femtomole per picoliter" ;
+         skos:prefLabel "fmol/pl" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JpostEntry
+:JpostEntry rdf:type owl:Class ;
+            dc:description "root node of jPOST entries." ;
+            rdfs:label "jPOST entry" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JpostScore
+:JpostScore rdf:type owl:Class ;
+            rdfs:subClassOf :MeasurementValue ;
+            dc:description "jPOST result score for PSM" ;
+            rdfs:label "jPOST score" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#UniScore
+:UniScore rdf:type owl:Class ;
+            rdfs:subClassOf :MeasurementValue ;
+            dc:description "jPOST result score for PSM" ;
+            rdfs:label "Uni score" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#MassToCharge
+:MassToCharge rdf:type owl:Class ;
+              rdfs:subClassOf :MeasurementValue ;
+              dct:description "Mass[obo:MS_1000225]-to-charge[obo:MS_1000041] ratio of mass spectrum." ;
+              rdfs:label "Mass-to-charge ratio" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#MatchingType
+:MatchingType rdf:type owl:Class ;
+              rdfs:subClassOf :JpostEntry ;
+              dc:description "a jPOST entry describing a matching ion type of PSM based on the sequence, PTMs and the charge, as a unit for calculating peptide FDR." ;
+              rdfs:label "Matching type" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#MeasurementValue
+:MeasurementValue rdf:type owl:Class ;
+                  dct:description "Measurement value for mass spectrometry-based proteomics" ;
+                  rdfs:label "Measurement value" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#Modification
+:Modification rdf:type owl:Class ;
+              rdfs:subClassOf :JpostEntry ;
+              dc:description "amin acid mass modification" ;
+              rdfs:label "Modification" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#AmbiguousModification
+:AmbiguousModification rdf:type owl:Class ;
+              rdfs:subClassOf :JpostEntry ;
+              dc:description "ambiguous amin acid mass modification" ;
+              rdfs:label "Ambiguous modification" .
+
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#ModificationClass
+:ModificationClass rdf:type owl:Class ;
+                   rdfs:subClassOf :EnzymeAndModification ;
+                   dc:description "A type of amino asid mass modification based on unimod" ;
+                   rdfs:label "Modifiaction class" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#MsMode
+:MsMode rdf:type owl:Class ;
+        rdfs:subClassOf :Profile ;
+        dc:description "metadata of MS instrument." ;
+        rdfs:label "MS instrument mode" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#NumOfLeadingProtein
+:NumOfLeadingProtein rdf:type owl:Class ;
+                     rdfs:subClassOf :DatasetStatistic ;
+                     dc:description "Number of leading protein (obo:MS_1002401) infered from proteins in a dataset" ;
+                     rdfs:label "Number of leading proteins" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#NumOfMatchedProteins
+:NumOfMatchedProteins rdf:type owl:Class ;
+                      rdfs:subClassOf :DatasetStatistic ;
+                      dc:description "Number of proteins matched with at least one peptide in a dataset" ;
+                      rdfs:label "Number of matched proteins" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#NumOfPeptides
+:NumOfPeptides rdf:type owl:Class ;
+               rdfs:subClassOf :DatasetStatistic ;
+               dc:description "Number of peptides in a dataset" ;
+               rdfs:label "Number of peptides" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#NumOfProteinsWithUniquePeptide
+:NumOfProteinsWithUniquePeptide rdf:type owl:Class ;
+                                rdfs:subClassOf :DatasetStatistic ;
+                                dc:description "Number of proteins matched with at least one unique peptide in a dataset" ;
+                                rdfs:label "Number of proteins with unique peptide" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#NumOfPsms
+:NumOfPsms rdf:type owl:Class ;
+           rdfs:subClassOf :DatasetStatistic ;
+           dc:description "Number of PSMs in a dataset" ;
+           rdfs:label "Number of PSMs" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#NumOfRawData
+:NumOfRawData rdf:type owl:Class ;
+              rdfs:subClassOf :DatasetStatistic ;
+              dc:description "Number of raw data in a dataset" ;
+              rdfs:label "Number of raw data" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#NumOfSpectra
+:NumOfSpectra rdf:type owl:Class ;
+              rdfs:subClassOf :DatasetStatistic ;
+              dc:description "Number of spectra in a dataset" ;
+              rdfs:label "Number of spectra" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#Organ
+:Organ rdf:type owl:Class ;
+       rdfs:subClassOf :Sample ;
+       dc:description "organ of sample." ;
+       rdfs:label "Organ" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#PepArea
+:PepArea rdf:type owl:Class ;
+         rdfs:subClassOf :QuantitativeValue ;
+         dc:description "area of peptide spectrum for quntification" ;
+         rdfs:label "Peptide area" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#PepIntensity
+:PepIntensity rdf:type owl:Class ;
+              rdfs:subClassOf :QuantitativeValue ;
+              dc:description "intensity of peptide spectrum for quntification" ;
+              rdfs:label "Peptide intensity" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#Peptide
+:Peptide rdf:type owl:Class ;
+         rdfs:subClassOf obo:MS_1000860 ,
+                         :JpostEntry ;
+         dc:description "a jPOST entry describing a peptide." ;
+         rdfs:label "Peptide" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#PeptideEvidence
+:PeptideEvidence rdf:type owl:Class ;
+                 rdfs:subClassOf :JpostEntry ;
+                 dc:description "a jPOST entry describing peptide evidence in mzIndentML." ;
+                 rdfs:label "Peptide evidence" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#PeptideSpectrumMatch
+:PeptideSpectrumMatch rdf:type owl:Class ;
+                      rdfs:subClassOf :JpostEntry ;
+                      dc:description "a jPOST entry describing a peptide matched to spectrum." ;
+                      rdfs:label "Peptide spectrum match" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#Plex
+:Plex rdf:type owl:Class ;
+      rdfs:subClassOf :Profile ;
+      dc:description "plex information of multi-plex experiment" ;
+      rdfs:label "Plex" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#Profile
+:Profile rdf:type owl:Class ;
+         rdfs:subClassOf :JpostEntry ;
+         dc:description "Metadata of a experimental procedure." ;
+         rdfs:label "Profile" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#Project
+:Project rdf:type owl:Class ;
+         rdfs:subClassOf :JpostEntry ;
+         dc:description "a jPOST entry describing a project." ;
+         rdfs:label "jPOST project" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#Protein
+:Protein rdf:type owl:Class ;
+         rdfs:subClassOf obo:MS_1000882 ,
+                         :JpostEntry ;
+         dc:description "a jPOST entry describing a protein." ;
+         rdfs:label "Protein" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#ProteinIsoform
+:ProteinIsoform rdf:type owl:Class ;
+         rdfs:subClassOf :JpostEntry ;
+         dc:description "a jPOST entry describing a protein isoform in a dataset." ;
+         rdfs:label "Protein isoform" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#ProteinGroup
+:ProteinGroup rdf:type owl:Class ;
+              rdfs:subClassOf :JpostEntry ;
+              dc:description "a jPOST entry describing a protein group" ;
+              rdfs:label "Protein group" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#QuantificationPlatform
+:QuantificationPlatform rdf:type owl:Class ;
+                        rdfs:subClassOf :MsMode ;
+                        dc:description "platform type for quantification." ;
+                        rdfs:label "Quantification platform" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#QuantitativeValue
+:QuantitativeValue rdf:type owl:Class ;
+                   rdfs:subClassOf :MeasurementValue ;
+                   rdfs:label "Quantitative value" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#RawData
+:RawData rdf:type owl:Class ;
+         rdfs:subClassOf :JpostEntry ;
+         dc:description "a jPOST entry describing a raw data of mass spectrometer run." ;
+         rdfs:label "Raw data" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#RelativeQuantitativeValue
+:RelativeQuantitativeValue rdf:type owl:Class ;
+                           rdfs:subClassOf :QuantitativeValue ;
+                           rdfs:label "Relative quantitative value" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#RepresentativeIsoform
+:RepresentativeIsoform rdf:type owl:Class ;
+         rdfs:subClassOf :JpostEntry ;
+         dc:description "a jPOST entry describing a representative isoform in a dataset." ;
+         rdfs:label "Representative isoform" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#Sample
+:Sample rdf:type owl:Class ;
+        rdfs:subClassOf :Profile ;
+        dc:description "metadata of a sample." ;
+        rdfs:label "Sample" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#SampleType
+:SampleType rdf:type owl:Class ;
+            rdfs:subClassOf :Sample ;
+            dc:description "sample type of sample." ;
+            rdfs:label "Sample type" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#SharedPeptide
+:SharedPeptide rdf:type owl:Class ;
+                rdfs:subClassOf obo:MS_1001175 ,
+                                :Peptide ;
+                dc:description "Peptide shared in multiple database sequence" ;
+                rdfs:label "Shared peptide" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#SharedPeptideAtMsLevel
+:SharedPeptideAtMsLevel rdf:type owl:Class ;
+                         rdfs:subClassOf :SharedSequence ;
+                         dc:description "Peptide shared in multiple database sequence at MS level. (not distinguish leucine and isoleucine)" ;
+                         rdfs:label "Shared peptide at MS level" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#Spectrum
+:Spectrum rdf:type owl:Class ;
+          rdfs:subClassOf obo:MS_1000442 ,
+                          :JpostEntry ;
+          dc:description "a jPOST entry describing a spectrum of LC-MS/MS" ;
+          rdfs:label "Spectrum" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#Tissue
+:Tissue rdf:type owl:Class ;
+        rdfs:subClassOf :Sample ;
+        dc:description "tissue of sample." ;
+        rdfs:label "Tissue" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#UniquePeptide
+:UniquePeptide rdf:type owl:Class ;
+               rdfs:subClassOf obo:MS_1001363 ,
+                               :Peptide ;
+               dc:description "Peptide unique to one database sequence" ;
+               rdfs:label "Unique peptide" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#UniquePeptideAtMsLevel
+:UniquePeptideAtMsLevel rdf:type owl:Class ;
+                        rdfs:subClassOf :UniquePeptide ;
+                        dc:description "Peptide unique to one database sequence at MS level. (not distinguish leucine and isoleucine)" ;
+                        rdfs:label "Unique peptide at MS level" .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#VariableModification
+:VariableModification rdf:type owl:Class ;
+                      rdfs:subClassOf px:ModificationType ;
+                      dc:description "a possible amino acid mass modification." ;
+                      rdfs:label "Variable modification" .
+
+
+###  https://raw.githubusercontent.com/PX-RDF/ontology/master/px.owl#ModificationType
+px:ModificationType rdf:type owl:Class ;
+                    rdfs:subClassOf :EnzymeAndModification ;
+                    dct:description "Experimental amino acid mass modification type in database search" ;
+                    rdfs:label "Modification type" .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_005
+:JPO_005 rdf:type owl:NamedIndividual ,
+                  :InstrumentMode .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_006
+:JPO_006 rdf:type owl:NamedIndividual ,
+                  :InstrumentMode .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_007
+:JPO_007 rdf:type owl:NamedIndividual ,
+                  :InstrumentMode .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_008
+:JPO_008 rdf:type owl:NamedIndividual ,
+                  :InstrumentMode .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_009
+:JPO_009 rdf:type owl:NamedIndividual ,
+                  :InstrumentPurpose .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_010
+:JPO_010 rdf:type owl:NamedIndividual ,
+                  :InstrumentPurpose .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_011
+:JPO_011 rdf:type owl:NamedIndividual ,
+                  :InstrumentPurpose .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_012
+:JPO_012 rdf:type owl:NamedIndividual ,
+                  :QuantificationPlatform .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_013
+:JPO_013 rdf:type owl:NamedIndividual ,
+                  :QuantificationPlatform .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_014
+:JPO_014 rdf:type owl:NamedIndividual ,
+                  :QuantificationPlatform .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_016
+:JPO_016 rdf:type owl:NamedIndividual ,
+                  :QuantificationPlatform .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_017
+:JPO_017 rdf:type owl:NamedIndividual ,
+                  :QuantificationPlatform .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_022
+:JPO_022 rdf:type owl:NamedIndividual ,
+                  :ModificationClass .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_023
+:JPO_023 rdf:type owl:NamedIndividual ,
+                  :ModificationClass .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_024
+:JPO_024 rdf:type owl:NamedIndividual ,
+                  :ModificationClass .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_025
+:JPO_025 rdf:type owl:NamedIndividual ,
+                  :ModificationClass .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_026
+:JPO_026 rdf:type owl:NamedIndividual ,
+                  :ModificationClass .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_027
+:JPO_027 rdf:type owl:NamedIndividual ,
+                  :ModificationClass .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_028
+:JPO_028 rdf:type owl:NamedIndividual ,
+                  :ModificationClass .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_029
+:JPO_029 rdf:type owl:NamedIndividual ,
+                  :ModificationClass .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_030
+:JPO_030 rdf:type owl:NamedIndividual ,
+                  :ModificationClass .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_031
+:JPO_031 rdf:type owl:NamedIndividual ,
+                  :ModificationClass .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_032
+:JPO_032 rdf:type owl:NamedIndividual ,
+                  :ModificationClass .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_033
+:JPO_033 rdf:type owl:NamedIndividual ,
+                  :ModificationClass .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_034
+:JPO_034 rdf:type owl:NamedIndividual ,
+                  :ModificationClass .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_035
+:JPO_035 rdf:type owl:NamedIndividual ,
+                  :ModificationClass .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_036
+:JPO_036 rdf:type owl:NamedIndividual ,
+                  :ModificationClass .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_037
+:JPO_037 rdf:type owl:NamedIndividual ,
+                  :ModificationClass .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_038
+:JPO_038 rdf:type owl:NamedIndividual ,
+                  :ModificationClass .
+
+
+###  http://rdf.jpostdb.org/ontology/jpost.owl#JPO_039
+:JPO_039 rdf:type owl:NamedIndividual ,
+                  :ModificationClass .
+
+
+#################################################################
+#    Annotations
+#################################################################
+
+:JPO_005 dc:description "Data-dependent acquisition high resoluiton mode of mass spectrometer." ;
+         dct:identifier "JPO_005" ;
+         rdfs:label "DDA-high res." .
+
+
+:JPO_006 dct:identifier "JPO_006" ;
+         dc:description "Data-dependent acquisition low resoluiton mode of mass spectrometer." ;
+         rdfs:label "DDA-low res." .
+
+
+:JPO_007 dc:description "Data-independent acquisition mode of mass spectrometer." ;
+         rdfs:label "DIA" ;
+         dct:identifier "JPO_007" .
+
+
+:JPO_008 rdfs:label "Target" ;
+         dc:description "Target mode of mass spectrometer." ;
+         dct:identifier "JPO_008" .
+
+
+:JPO_009 rdfs:label "Qualification" ;
+         dct:identifier "JPO_009" .
+
+
+:JPO_010 dct:identifier "JPO_010" ;
+         rdfs:label "Absolute quantification" .
+
+
+:JPO_011 dct:identifier "JPO_011" ;
+         rdfs:label "Relative quantification" .
+
+
+:JPO_012 dct:identifier "JPO_012" ;
+         rdfs:label "Spectra count" .
+
+
+:JPO_013 dct:identifier "JPO_013" ;
+         rdfs:label "Precursor ion label free" .
+
+
+:JPO_014 rdfs:label "Precursor ion stable isotope labeling" ;
+         dct:identifier "JPO_014" .
+
+
+:JPO_016 dct:identifier "JPO_016" ;
+         rdfs:label "Fragment ion (stable isotope labeling)" .
+
+
+:JPO_017 dct:identifier "JPO_017" ;
+         rdfs:label "Fragment ion (label-free)" .
+
+
+:JPO_022 dct:identifier "JPO_022" ;
+         rdfs:label "Post-translational" .
+
+
+:JPO_023 dct:identifier "JPO_023" ;
+         rdfs:label "Co-translational" .
+
+
+:JPO_024 dct:identifier "JPO_024" ;
+         rdfs:label "Pre-translational" .
+
+
+:JPO_025 dct:identifier "JPO_025" ;
+         rdfs:label "Chemical derivative" .
+
+
+:JPO_026 dct:identifier "JPO_026" ;
+         rdfs:label "Artefact" .
+
+
+:JPO_027 dct:identifier "JPO_027" ;
+         rdfs:label "N-linked glycosylation" .
+
+
+:JPO_028 dct:identifier "JPO_028" ;
+         rdfs:label "O-linked glycosylation" .
+
+
+:JPO_029 rdfs:label "Other glycosylation" ;
+         dct:identifier "JPO_029" .
+
+
+:JPO_030 rdfs:label "Synth. pep. protect. gp." ;
+         dct:identifier "JPO_030" .
+
+
+:JPO_031 rdfs:label "Isotopic label" ;
+         dct:identifier "JPO_031" .
+
+
+:JPO_032 dct:identifier "JPO_032" ;
+         rdfs:label "Non-standard residue" .
+
+
+:JPO_033 rdfs:label "Multiple" ;
+         dct:identifier "JPO_033" .
+
+
+:JPO_034 rdfs:label "Other" ;
+         dct:identifier "JPO_034" .
+
+
+:JPO_035 rdfs:label "AA substitution" ;
+         dct:identifier "JPO_035" .
+
+
+:JPO_036 rdfs:label "Cross-link" ;
+         dct:identifier "JPO_036" .
+
+
+:JPO_037 dct:identifier "JPO_037" ;
+         rdfs:label "CID cleavable cross-link" .
+
+
+:JPO_038 rdfs:label "Photo cleavable cross-link" ;
+         dct:identifier "JPO_038" .
+
+
+:JPO_039 rdfs:label "Other cleavable cross-link" ;
+         dct:identifier "JPO_039" .
+
+
+###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi
