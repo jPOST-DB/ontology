@@ -1,10 +1,10 @@
-@prefix : <http://rdf.jpostdb.org/ontology/mbpost-cv.ttl#> .
+@prefix : <http://cv.shin.massbank.jp/> .
 @prefix dct: <http://purl.org/dc/terms/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 
-<http://rdf.jpostdb.org/ontology/mbpost-cv.ttl> rdf:type owl:Ontology ;
+<http://cv.shin.massbank.jp> rdf:type owl:Ontology ;
                                              dct:creator "Akiyasu C. Yoshizawa" ;
                                              dct:creator "Yushi Takahashi" ;
                                              dct:description "The controlled vocabulary for managing MB-POST, a repository of metabolome datasets." ;
@@ -16,69 +16,69 @@
 #    Classes
 #################################################################
 
-###  http://rdf.jpostdb.org/ontology/mbpost-cv.ttl#MBP_001
+###  http://cv.shin.massbank.jp/MBP_001
 :MBP_001 rdf:type owl:Class ;
          dct:identifier "MBP_001" ;
          rdfs:label "MB-POST controlled vocabulary" ;
          dct:description "The root node for terms relating to the description of MB-POST." .
 
-###  http://rdf.jpostdb.org/ontology/mbpost-cv.ttl#MBP_002
+###  http://cv.shin.massbank.jp/MBP_002
 :MBP_002 rdf:type owl:Class ;
          dct:identifier "MBP_002" ;
          rdfs:label "Metabolome and Lipidome" ;
          dct:description "The complete set of hydrophilic metabolites and lipids produced under a given specific conditions." ;
          rdfs:subClassOf :MBP_001 .
 
-###  http://rdf.jpostdb.org/ontology/mbpost-cv.ttl#MBP_003
+###  http://cv.shin.massbank.jp/MBP_003
 :MBP_003 rdf:type owl:Class ;
          dct:identifier "MBP_003" ;
          rdfs:label "Volatilome" ;
          dct:description "The complete set of volatile organic and inorganic compounds that originate from an organism, super-organism, or ecosystem under specific conditions." ;
          rdfs:subClassOf :MBP_001 .
 
-###  http://rdf.jpostdb.org/ontology/mbpost-cv.ttl#MBP_004
+###  http://cv.shin.massbank.jp/MBP_004
 :MBP_004 rdf:type owl:Class ;
          dct:identifier "MBP_004" ;
          rdfs:label "Metallome" ;
          dct:description "The complete set of metal and metalloid species within a cell or tissue type under specific conditions." ;
          rdfs:subClassOf :MBP_001 .
 
-###  http://rdf.jpostdb.org/ontology/mbpost-cv.ttl#MBP_005
+###  http://cv.shin.massbank.jp/MBP_005
 :MBP_005 rdf:type owl:Class ;
          dct:identifier "MBP_005" ;
          rdfs:label "IC-MS" ;
          dct:description "A separation and detection method that combines ion chromatography and mass spectrometry." ;
          rdfs:subClassOf :MBP_001 .
 
-###  http://rdf.jpostdb.org/ontology/mbpost-cv.ttl#MBP_006
+###  http://cv.shin.massbank.jp/MBP_006
 :MBP_006 rdf:type owl:Class ;
          dct:identifier "MBP_006" ;
          rdfs:label "SFC-MS" ;
          dct:description "A separation and detection method that combines supercritical fluid chromatography and mass spectrometry." ;
          rdfs:subClassOf :MBP_001 .
 
-###  http://rdf.jpostdb.org/ontology/mbpost-cv.ttl#MBP_007
+###  http://cv.shin.massbank.jp/MBP_007
 :MBP_007 rdf:type owl:Class ;
          dct:identifier "MBP_007" ;
          rdfs:label "SFC_Reversed phase" ;
          dct:description "Supercritical fluid chromatography using a reversed-phase column." ;
          rdfs:subClassOf :MBP_001 .
 
-###  http://rdf.jpostdb.org/ontology/mbpost-cv.ttl#MBP_008
+###  http://cv.shin.massbank.jp/MBP_008
 :MBP_008 rdf:type owl:Class ;
          dct:identifier "MBP_008" ;
          rdfs:label "SFC_Normal phase" ;
          dct:description "Supercritical fluid chromatography using a normal-phase column." ;
          rdfs:subClassOf :MBP_001 .
 
-###  http://rdf.jpostdb.org/ontology/mbpost-cv.ttl#MBP_009
+###  http://cv.shin.massbank.jp/MBP_009
 :MBP_009 rdf:type owl:Class ;
          dct:identifier "MBP_009" ;
          rdfs:label "Positive and Negative" ;
          dct:description "A data acquisition mode that alternates between positive and negative ion mode." ;
          rdfs:subClassOf :MBP_001 .
 
-###  http://rdf.jpostdb.org/ontology/mbpost-cv.ttl#MBP_010
+###  http://cv.shin.massbank.jp/MBP_010
 :MBP_010 rdf:type owl:Class ;
          dct:identifier "MBP_010" ;
          rdfs:label "OAD" ;
